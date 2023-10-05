@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="../public/css/styles.css" />
+  </head>
+  <body>
+    <h1>Habit Tracker</h1>
+
+    <h2>Current Habits</h2>
+
+    <ul>
+        <% for (let i = 0; i < habits.length; i++) { %>
+          <li>
+            <%= habits[i].name %>
+            <ul>
+              <% for (let j = 0; j < 7; j++) { %>
+                <li>
+                  <form method="POST" action="/update-habit/<%= habits[i]._id %>">
+                    <input type="hidden" name="date" value="<%= getDate(j) %>">
+                    <select name="status">
+                      <option value="Done" <%= isSelected(habits[i], getDate(j), 'Done') %>>Done</option>
+                      <option value="Not done" <%= isSelected(habits[i], getDate(j), 'Not done') %>>Not done</option>
+                      <option value="None" <%= isSelected(habits[i], getDate(j), 'None') %>>None</option>
+                    </select>
+                    <button type="submit">Update</button>
+                  </form>
+                </li>
+              <% } %>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+
+    <h2>Add a New Habit</h2>
+    <form method="POST" action="/add-habit">
+      <label for="habitName">Habit Name:</label>
+      <input type="text" id="habitName" name="habitName" required />
+      <button type="submit">Add</button>
+    </form>
+  </body>
+</html>
